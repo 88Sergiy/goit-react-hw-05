@@ -49,16 +49,6 @@ function MoviesPage() {
 
     const queryString = e.target.elements.searchFilm.value.trim();
 
-    if (queryString.length < 2) {
-      toast.error('Please, input 2 symbols at least', {
-        position: 'top-right',
-      });
-      return;
-    }
-
-    setError(false);
-    setLoading(true);
-
     setSearchParams({ query: queryString });
   }
 
