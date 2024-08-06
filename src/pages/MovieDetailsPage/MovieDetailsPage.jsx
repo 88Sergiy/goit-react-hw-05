@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import {
   Link,
   NavLink,
@@ -18,8 +18,8 @@ function MovieDetailsPage() {
   const { loading, setLoading, error, setError } = useLoad();
 
   const { movieId } = useParams();
-
   const location = useLocation();
+  const locationRef = useRef(location.state);
 
   useEffect(() => {
     async function fetchFilm() {
@@ -70,8 +70,8 @@ function MovieDetailsPage() {
         {!loading && !error && (
           <>
             <Link
-              to={location.state ?? '/movies'}
-              type="buttom"
+              to={locationRef.current ?? '/movies'}
+              type="button"
               className="flex items-center gap-4 bg-violet-300 max-w-[max-content] py-3 px-6 rounded-md
               hover:bg-violet-400 hover:text-white duration-150"
             >
@@ -124,44 +124,6 @@ function MovieDetailsPage() {
                 </div>
               </div>
             </div>
-            <div className="additional-info mt-8 flex justify-evenly items-center">
-              <NavLink
-                to={'cast'}
-                state={location.state ?? '/movies'}
-                className="bg-violet-400 p-4 rounded-md text-white transition-colors duration-150 hover:bg-violet-500"
-              >
-                Show cast
-              </NavLink>
-              <NavLink
-                to={'reviews'}
-                state={location.state ?? '/movies'}
-                className="bg-violet-400 p-4 rounded-md text-white transition-colors duration-150 hover:bg-violet-500"
-              >
-                Show Reviews
-              </NavLink>
-            </div>
-
-            <Suspense
-              fallback={
-                <ColorRing
-                  visible={true}
-                  height="100"
-                  width="100"
-                  ariaLabel="color-ring-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="color-ring-wrapper mx-auto"
-                  colors={[
-                    '#e15b64',
-                    '#f47e60',
-                    '#f8b26a',
-                    '#abbd81',
-                    '#849b87',
-                  ]}
-                />
-              }
-            >
-              <Outlet />
-            </Suspense>
           </>
         )}
       </div>
